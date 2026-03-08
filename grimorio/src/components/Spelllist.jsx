@@ -125,35 +125,34 @@ export default function SpellList({ spells, onSelect }) {
   return (
 
     <button
-      key={magia.id}
-      onClick={() => onSelect(magia)}
-      className="w-full text-left flex items-center justify-between p-4 group hover:bg-indigo-900/30 transition-colors"
-    >
+  key={magia.id}
+  onClick={() => onSelect(magia)}
+  className="w-full text-left flex items-center justify-between p-4 group hover:bg-indigo-900/30 transition-colors"
+>
 
-      <div className="flex items-center gap-3">
+  <div className="flex items-center gap-3">
 
-        {Icon && (
-          <div className="
-            w-6 h-6
-            flex items-center justify-center
-            rounded-md
-            bg-indigo-950
-            border border-indigo-500/30
-            text-amber-400
-          ">
-            <Icon className="w-3.5 h-3.5" />
-          </div>
-        )}
+    {Icon && (
+      <div className="relative flex items-center justify-center mr-2">
 
-        <span className="font-serif text-lg text-slate-300 group-hover:text-amber-200 transition-colors tracking-wide">
-          {magia.nome}
-        </span>
+        <div className="absolute inset-0 bg-amber-500/20 blur-xl rounded-full scale-150 animate-pulse"></div>
+
+        <div className="relative z-10 text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]">
+          <Icon className="w-10 h-10 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3" />
+        </div>
 
       </div>
+    )}
 
-      <ChevronRight className="w-5 h-5 text-slate-600 group-hover:text-amber-500 transition-transform group-hover:translate-x-1" />
+    <span className="font-serif text-lg text-slate-300 group-hover:text-amber-200 transition-colors tracking-wide">
+      {magia.nome}
+    </span>
 
-    </button>
+  </div>
+
+  <ChevronRight className="w-5 h-5 text-slate-600 group-hover:text-amber-500 transition-transform group-hover:translate-x-1" />
+
+</button>
 
   );
 
