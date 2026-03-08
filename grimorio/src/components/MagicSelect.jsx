@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 
+
 export default function MagicSelect({
   label,
   value,
@@ -9,6 +10,44 @@ export default function MagicSelect({
 }) {
 
   const [open, setOpen] = useState(false);
+  const uniqueOptions = [...new Set(options?.filter(Boolean))].sort();
+
+{open && (
+
+  <div
+    className="
+    absolute z-[9999] mt-2 w-full
+    bg-slate-950/95 backdrop-blur-md
+    border border-amber-500/30
+    rounded-lg shadow-xl
+    max-h-64 overflow-y-auto
+    "
+  >
+
+    <Option
+      label="Todos"
+      onClick={()=>{
+        setValue("");
+        setOpen(false);
+      }}
+    />
+
+    {uniqueOptions.map(opt => (
+
+      <Option
+        key={opt}
+        label={opt}
+        onClick={()=>{
+          setValue(opt);
+          setOpen(false);
+        }}
+      />
+
+    ))}
+
+  </div>
+
+)}
 
   return (
     <div className="relative">

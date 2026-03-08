@@ -16,3 +16,12 @@
 .animate-fadeIn {
   animation: fadeIn 0.15s ease-out;
 }
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(251,191,36,0.4);
+  border-radius: 10px;
+}
