@@ -1,7 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
 
 import Filters from "./components/Filters";
-import SpellList from "./components/SpellList";
+// Altere no src/App.jsx
+import SpellList from "./components/SpellList.jsx";
 import SpellModal from "./components/SpellModal";
 
 
