@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { BookOpen, ChevronDown, ChevronRight, Sparkles } from "lucide-react";
+import { getSchoolIcon } from "../icons/magicSchools";
 
 export default function SpellList({ spells, onSelect }) {
 
@@ -51,7 +52,7 @@ export default function SpellList({ spells, onSelect }) {
 
       {/* contador */}
       <div className="mb-6 text-indigo-300/60 font-serif italic text-center">
-        Os sussurros revelaram
+        As páginas do grimório revelam
         <strong className="text-amber-400 text-lg mx-1">
           {totalEncontradas}
         </strong>
@@ -117,29 +118,46 @@ export default function SpellList({ spells, onSelect }) {
 
                   <div className="p-3 bg-slate-950/50 border-t border-indigo-900/50 divide-y divide-indigo-900/30">
 
-                    {magiasDoGrau.map(magia => (
+                    {magiasDoGrau.map(magia => {
 
-                      <button
-                        key={magia.id}
-                        onClick={() => onSelect(magia)}
-                        className="w-full text-left flex items-center justify-between p-4 group hover:bg-indigo-900/30 transition-colors"
-                      >
+  const Icon = getSchoolIcon(magia.escola);
 
-                        <div className="flex items-center gap-3">
+  return (
 
-                          <Sparkles className="w-4 h-4 text-indigo-500/50 group-hover:text-amber-400 transition-colors" />
+    <button
+      key={magia.id}
+      onClick={() => onSelect(magia)}
+      className="w-full text-left flex items-center justify-between p-4 group hover:bg-indigo-900/30 transition-colors"
+    >
 
-                          <span className="font-serif text-lg text-slate-300 group-hover:text-amber-200 transition-colors tracking-wide">
-                            {magia.nome}
-                          </span>
+      <div className="flex items-center gap-3">
 
-                        </div>
+        {Icon && (
+          <div className="
+            w-6 h-6
+            flex items-center justify-center
+            rounded-md
+            bg-indigo-950
+            border border-indigo-500/30
+            text-amber-400
+          ">
+            <Icon className="w-3.5 h-3.5" />
+          </div>
+        )}
 
-                        <ChevronRight className="w-5 h-5 text-slate-600 group-hover:text-amber-500 transition-transform group-hover:translate-x-1" />
+        <span className="font-serif text-lg text-slate-300 group-hover:text-amber-200 transition-colors tracking-wide">
+          {magia.nome}
+        </span>
 
-                      </button>
+      </div>
 
-                    ))}
+      <ChevronRight className="w-5 h-5 text-slate-600 group-hover:text-amber-500 transition-transform group-hover:translate-x-1" />
+
+    </button>
+
+  );
+
+})}
 
                   </div>
 

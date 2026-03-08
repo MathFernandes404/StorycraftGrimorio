@@ -50,46 +50,41 @@ if (cache && cacheTime && now - cacheTime < CACHE_DURATION) {
 
 // SEM return — continua buscando atualização
 
-    // buscar planilha
+   // buscar planilha
     fetch(SHEET_URL)
       .then(res => res.json())
       .then(data => {
 
-        console.log("RAW DATA:", data);
+        // Função mágica para limpar espaços extras e padronizar maiúsculas/minúsculas
+        const padronizarTexto = (texto) => {
+          if (!texto) return "";
+          const limpo = texto.trim();
+          // Deixa a primeira letra maiúscula e o resto minúsculo
+          // Resolve o problema de "Parcial" vs "parcial"
+          return limpo.charAt(0).toUpperCase() + limpo.slice(1).toLowerCase();
+        };
 
         const parsed = data.map((s, index) => ({
-
           id: index + 1,
-
-          nome: s["Feitiço"] ?? "",
-
+          nome: s["Feitiço"]?.trim() ?? "",
           grau: parseInt(s["Grau"]) || 0,
-
-          origem: s["Origem"] ?? "",
-
+          origem: padronizarTexto(s["Origem"]),
+          
           tipo: s["Tipo"]
-            ? s["Tipo"].split(",").map(t => t.trim())
+            ? s["Tipo"].split(",").map(t => padronizarTexto(t))
             : [],
-
-          escola: s["Escola"] ?? "",
-
-          execucao: s["Execução:"] ?? "",
-
-          alcance: s["Alcance:"] ?? "",
-
-          duracao: s["Duração"] ?? "",
-
-          alvo: s["Alvo / Área / Efeito:"] ?? "",
-
-          resistencia: s["Resistência:"] ?? "",
-
-          descricao: s["Descrição"] ?? ""
-
+            
+          escola: padronizarTexto(s["Escola"]),
+          execucao: padronizarTexto(s["Execução:"]),
+          alcance: padronizarTexto(s["Alcance:"]),
+          duracao: padronizarTexto(s["Duração"]),
+          alvo: padronizarTexto(s["Alvo / Área / Efeito:"]),
+          resistencia: padronizarTexto(s["Resistência:"]), // A limpeza acontece aqui!
+          descricao: s["Descrição"]?.trim() ?? ""
         }));
 
-        console.log("PARSED:", parsed);
-
         setSpells(parsed);
+
 
         localStorage.setItem(
           CACHE_KEY,
@@ -195,36 +190,27 @@ const magiasFiltradas = useMemo(() => {
 ]);
 
 
-const opcoesFiltros = useMemo(() => {
+const opcoesFiltros = useMemo(() => ({
 
-  const unique = (arr) =>
-    [...new Set(arr.filter(Boolean))].sort();
+  graus: [...new Set(spells.map(s => s.grau))].sort(),
 
-  return {
+  origens: [...new Set(spells.map(s => s.origem).filter(Boolean))].sort(),
 
-    graus: unique(spells.map(s => s.grau)),
+  tipos: [...new Set(spells.flatMap(s => s.tipo || []))].sort(),
 
-    origens: unique(spells.map(s => s.origem)),
+  escolas: [...new Set(spells.map(s => s.escola).filter(Boolean))].sort(),
 
-    tipos: unique(
-      spells.flatMap(s => s.tipo || [])
-    ),
+  execucoes: [...new Set(spells.map(s => s.execucao).filter(Boolean))].sort(),
 
-    escolas: unique(spells.map(s => s.escola)),
+  alcances: [...new Set(spells.map(s => s.alcance).filter(Boolean))].sort(),
 
-    execucoes: unique(spells.map(s => s.execucao)),
+  duracoes: [...new Set(spells.map(s => s.duracao).filter(Boolean))].sort(),
 
-    alcances: unique(spells.map(s => s.alcance)),
+  resistencias: [...new Set(spells.map(s => s.resistencia).filter(Boolean))].sort(),
 
-    duracoes: unique(spells.map(s => s.duracao)),
+  alvos: [...new Set(spells.map(s => s.alvo).filter(Boolean))].sort(),
 
-    alvos: unique(spells.map(s => s.alvo)),
-
-    resistencias: unique(spells.map(s => s.resistencia))
-
-  };
-
-}, [spells]);
+}), [spells]);
 
 
   return (
@@ -259,7 +245,7 @@ const opcoesFiltros = useMemo(() => {
 
           <p className="text-indigo-300/80 text-lg max-w-2xl mx-auto font-serif italic tracking-wide mt-4">
 
-            "Aqueles que dominam as palavras arcanas, moldam a própria realidade."
+            "Há muitos caminhos para o poder: alguns o chamam de magia, outros de milagre, outros de maldição — mas todos conduzem ao mesmo destino, onde o conhecimento transforma vontade em realidade."
 
           </p>
 
