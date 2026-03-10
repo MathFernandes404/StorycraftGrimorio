@@ -14,15 +14,12 @@ export default function SpellModal({ spell, onClose }) {
         onClick={onClose}
       ></div>
 
-
       {/* container */}
-      <div className="relative w-full max-w-lg bg-slate-900 rounded-2xl border border-amber-500/50 shadow-[0_0_50px_rgba(245,158,11,0.15)] overflow-hidden transform transition-all">
-
+      <div className="relative w-full max-w-lg max-h-[85vh] bg-slate-900 rounded-2xl border border-amber-500/50 shadow-[0_0_50px_rgba(245,158,11,0.15)] overflow-hidden transform transition-all">
 
         {/* bordas decorativas */}
         <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
         <div className="absolute bottom-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-purple-600 to-transparent"></div>
-
 
         {/* botão fechar */}
         <button
@@ -31,7 +28,6 @@ export default function SpellModal({ spell, onClose }) {
         >
           <X className="w-5 h-5" />
         </button>
-
 
         <div className="p-8 relative">
 
@@ -47,7 +43,6 @@ export default function SpellModal({ spell, onClose }) {
               </span>
             </div>
 
-
             <h2 className="text-3xl font-serif font-bold text-amber-100 mb-6 drop-shadow-md">
               {spell.nome}
             </h2>
@@ -60,18 +55,15 @@ export default function SpellModal({ spell, onClose }) {
                 <span className="block text-[10px] uppercase tracking-widest text-indigo-400 mb-1">
                   Origem
                 </span>
-
                 <span className="font-serif text-slate-200">
                   {spell.origem}
                 </span>
               </div>
 
-
               <div className="bg-slate-950/60 rounded-lg p-3 border border-indigo-500/20 shadow-inner">
                 <span className="block text-[10px] uppercase tracking-widest text-indigo-400 mb-1">
                   Escola
                 </span>
-
                 <span className="font-serif text-slate-200">
                   {spell.escola}
                 </span>
@@ -80,24 +72,47 @@ export default function SpellModal({ spell, onClose }) {
             </div>
 
 
+            {/* informações técnicas */}
+            <div className="grid grid-cols-2 gap-4 mb-6">
+
+              <Info label="Execução" value={spell.execucao} />
+              <Info label="Alcance" value={spell.alcance} />
+              <Info label="Duração" value={spell.duracao} />
+              <Info label="Resistência" value={spell.resistencia} />
+
+            </div>
+
+
+            {/* alvo */}
+            {spell.alvo && (
+              <div className="mb-6 bg-slate-950/60 rounded-lg p-3 border border-indigo-500/20 shadow-inner">
+                <span className="block text-[10px] uppercase tracking-widest text-indigo-400 mb-1">
+                  Alvo / Área / Efeito
+                </span>
+
+                <span className="font-serif text-slate-200">
+                  {spell.alvo}
+                </span>
+              </div>
+            )}
+
+
             {/* tipos */}
             <div className="mb-6">
 
               <span className="block text-[10px] uppercase tracking-widest text-indigo-400 mb-2">
-                Manifestações (Tipos)
+                Manifestações
               </span>
 
               <div className="flex flex-wrap gap-2">
 
                 {spell.tipo.map((t, index) => (
-
                   <span
                     key={index}
                     className="px-3 py-1 text-xs font-semibold rounded-md bg-indigo-950 border border-indigo-700 text-indigo-200"
                   >
                     {t}
                   </span>
-
                 ))}
 
               </div>
@@ -108,16 +123,20 @@ export default function SpellModal({ spell, onClose }) {
             <div className="w-full h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent mb-6"></div>
 
 
-            {/* descrição */}
+            {/* descrição com scroll */}
             <div>
 
               <span className="block text-[10px] uppercase tracking-widest text-amber-500/70 mb-2">
                 Descrição do Efeito
               </span>
 
-              <p className="text-slate-300 text-base leading-relaxed font-serif italic bg-slate-950/30 p-4 rounded-lg border-l-2 border-amber-500/50">
-                "{spell.descricao}"
-              </p>
+              <div className="max-h-100 overflow-y-auto pr-2">
+
+                <p className="text-slate-300 text-base leading-relaxed font-serif italic bg-slate-950/30 p-4 rounded-lg border-l-2 border-amber-500/50">
+                  {spell.descricao}
+                </p>
+
+              </div>
 
             </div>
 
@@ -129,6 +148,26 @@ export default function SpellModal({ spell, onClose }) {
 
     </div>
 
+  );
+
+}
+
+
+/* pequeno componente reutilizável */
+function Info({ label, value }) {
+
+  if (!value) return null;
+
+  return (
+    <div className="bg-slate-950/60 rounded-lg p-3 border border-indigo-500/20 shadow-inner">
+      <span className="block text-[10px] uppercase tracking-widest text-indigo-400 mb-1">
+        {label}
+      </span>
+
+      <span className="font-serif text-slate-200">
+        {value}
+      </span>
+    </div>
   );
 
 }
