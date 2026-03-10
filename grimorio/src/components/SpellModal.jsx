@@ -130,11 +130,11 @@ export default function SpellModal({ spell, onClose }) {
                 Descrição do Efeito
               </span>
 
-              <div className="max-h-100 overflow-y-auto pr-2">
+              <div className="max-h-60 overflow-y-auto pr-2">
 
                 <p className="text-slate-300 text-base leading-relaxed font-serif italic bg-slate-950/30 p-4 rounded-lg border-l-2 border-amber-500/50">
                   {spell.descricao}
-                </p>
+                </p>orr
 
               </div>
 
